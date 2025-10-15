@@ -8,7 +8,7 @@ interface Task {
   isCompleted: boolean;
 }
 
-const API_URL = 'http://localhost:3001/api/tasks';
+const API_URL = 'https://task-manager-api-guo.onrender.com/api/tasks';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
