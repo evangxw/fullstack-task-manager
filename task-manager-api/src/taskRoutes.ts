@@ -1,17 +1,18 @@
 import express from 'express';
-import { tasks, Task } from './tasks';
+// 确保这里有 .js 后缀
+import { tasks } from './tasks.js';
+// 确保这里用 import type 并且有 .js 后缀
+import type { Task } from './tasks.js';
 
 const router = express.Router();
 let nextTaskId = 4;
 
-// --- CRUD 操作 ---
-
-// 1. GET /tasks - 获取所有任务
+// GET /tasks
 router.get('/', (req, res) => {
   res.json(tasks);
 });
 
-// 2. POST /tasks - 添加一个新任务
+// POST /tasks
 router.post('/', (req, res) => {
   const newTask: Task = {
     id: nextTaskId++,
@@ -22,28 +23,29 @@ router.post('/', (req, res) => {
   res.status(201).json(newTask);
 });
 
-// 3. PUT /tasks/:id - 更新一个任务
+// PUT /tasks/:id
 router.put('/:id', (req, res) => {
-  const id = parseInt(req.params.id); // 从网址中获取任务 ID
-  const taskIndex = tasks.findIndex(t => t.id === id);
+  const id = parseInt(req.params.id);
+  // 修复：给 t 指定类型 (t: Task)
+  const taskIndex = tasks.findIndex((t: Task) => t.id === id);
 
   if (taskIndex !== -1) {
-    // 更新任务的 isCompleted 状态
     tasks[taskIndex].isCompleted = req.body.isCompleted;
     res.json(tasks[taskIndex]);
   } else {
-    res.status(404).send('Task not found'); // 404 表示“未找到”
+    res.status(404).send('Task not found');
   }
 });
 
-// 4. DELETE /tasks/:id - 删除一个任务
+// DELETE /tasks/:id
 router.delete('/:id', (req, res) => {
   const id = parseInt(req.params.id);
-  const taskIndex = tasks.findIndex(t => t.id === id);
+  // 修复：给 t 指定类型 (t: Task)
+  const taskIndex = tasks.findIndex((t: Task) => t.id === id);
 
   if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1); // 从数组中移除该任务
-    res.status(204).send(); // 204 表示“无内容”，操作成功但无需返回数据
+    tasks.splice(taskIndex, 1);
+    res.status(204).send();
   } else {
     res.status(404).send('Task not found');
   }

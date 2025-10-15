@@ -6,7 +6,6 @@ export interface Task {
 }
 
 // 2. 创建一个任务列表，并放一些初始数据进去
-// 这就是我们的“内存数据库”
 export const tasks: Task[] = [
   { id: 1, title: 'Learn React', isCompleted: true },
   { id: 2, title: 'Learn Node.js', isCompleted: false },
